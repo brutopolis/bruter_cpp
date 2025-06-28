@@ -22,11 +22,6 @@ class Bruter
             bruter_free(list);
         }
 
-        BruterValue run() 
-        {
-            return bruter_run(list);
-        }
-
         BruterInt call(BruterList* list)
         {
             return bruter_call(this->list, list);
@@ -37,9 +32,9 @@ class Bruter
             return bruter_get(list, i);
         }
 
-        void set(int i, BruterValue value) 
+        void set(int i, BruterValue value, char* key = nullptr, int8_t type = 0) 
         {
-            bruter_set(list, i, value);
+            bruter_set(list, i, value, key, type);
         }
 
         #ifndef BRUTER_KEYLESS

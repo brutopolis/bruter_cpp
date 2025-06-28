@@ -1,22 +1,24 @@
-#define USE_SHORT_TYPES
 #include "bruter.hpp"
 
 int main()
 {
     Bruter *list = new Bruter(8, true, true);
-    Int i = 42;
-    list->push(bruter_value_i(i));
-    list->unshift(bruter_value_f(3.14f));
-    list->insert(1, bruter_value_p(list));
-    list->push(bruter_value_p(strdup("Hello, World!")));
-    //list->reverse(); // Reverse the list using the C function
-    Value v = list->pop();
+    BruterInt i = 42;
+    list->unshift((BruterValue){.f = 3.14}); // Unshift a float value
+    list->push((BruterValue){.i = i}); // Push an integer value
+    list->insert(0, (BruterValue){.u = 100}); // Insert an unsigned integer value at index 0
+    list->insert(1, (BruterValue){.p = (void*)0x1234}); // Insert a pointer value at index 1
+    list->insert(2, (BruterValue){.fn = [](BruterList *context, BruterList *args) -> BruterInt {
+        // Example function that returns the size of the list
+        return context->size;
+    }}); // Insert a function pointer at index 2
+
+    
+    BruterValue v = list->pop();
     
     // free the list
     printf("List size: %d\n", list->size());
-    printf("Popped value: %f\n", v.f);
-    free(list->shift().s);
+    printf("Popped value: %i\n", v.i);
     delete list; // Use delete to free the Bruter object
-
     return 0;
 }
